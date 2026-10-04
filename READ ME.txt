@@ -1,0 +1,107 @@
+S'fundo Zwane
+
+PC GAME DEALS
+Developer Accelerator Programme Entry Assessment
+
+
+HOW TO RUN THE PROJECT
+
+No additional software is required.
+
+1. Extract the ZIP folder.
+2. Open the project folder.
+3. Double-click index.html.
+4. Double-click part-A.html.
+5. The PC Game Deals page will open in your web browser.
+6. You can use inspect element on your browser to check code.
+
+
+PART A
+
+The Part A functions are included in the JavaScript section of index.html.
+
+To view the Part A test results:
+
+1. Open index.html in Google Chrome.
+2. Press F12 to open Developer Tools.
+3. Select the Console tab.
+4. The Part A results will be displayed there.
+
+The tests demonstrate:
+- Games currently on sale
+- Discount percentage calculation
+- Cheapest game
+- Game title search
+
+
+PART B
+
+Part B is displayed directly on the webpage when index.html is opened.
+
+The page displays:
+- Game title
+- Normal price
+- Sale price when applicable
+- ON SALE label when applicable
+
+
+PART C
+
+I attempted the following optional stretch goals:
+- Live game search
+- Show only games currently on sale
+- Improved page styling
+
+CHOICES
+
+I decided to use plain HTML, CSS and JavaScript because the project is small and I wanted to concentrate on understanding the basic programming logic instead of using a framework.
+
+I kept the JavaScript inside the HTML file because there is currently only one page and this made the project easier for me to follow while building it.
+
+I used a loop to go through the games instead of writing each game manually in HTML. This means that games can be added to the data and the page can display them automatically.
+
+I used if statements to check whether the sale price is lower than the normal price. A game is only shown as being on sale when this condition is true.
+
+
+OBSTACLES
+
+One of the things I initially found difficult was deciding how to display different information depending on whether a game was on sale.
+
+I worked through this by breaking the problem into smaller steps. I first displayed only the game names, then added the normal prices, and finally used an if statement to decide whether the sale price and ON SALE label should be displayed.
+
+I also had to understand how JavaScript could create HTML elements and add them to the page instead of writing every game directly into the HTML.
+
+RESOURCES
+
+I used the assessment document as the main guide for the requirements.
+
+I also used ChatGPT and Claude to help explain JavaScript concepts and to help me understand how to approach parts of the exercise. I worked through the code step by step so that I could understand what the functions, loops, conditions and DOM methods were doing.
+
+TIME
+
+The project took me approximately  2 days to complete.
+
+ASSUMPTIONS
+
+1. All prices are displayed in Rand as stated in the assessment.
+
+2. A game is considered on sale only when its sale price is lower than its normal price.
+
+3. When the sale price and normal price are equal, the normal price is treated as the current price and the game is not marked as being on sale.
+
+4. The search is based only on the game title.
+
+5. The supplied game data is treated as the source of truth and is not changed.
+
+6. The project is intended to run in a modern web browser with JavaScript enabled.
+
+
+NEXT TIME
+
+If I had another full day, I would add images for each game and redesign the game list into proper game cards.
+
+I would like the ON SALE label to appear over the game image.
+
+I would also look at using the CheapShark API mentioned in the assessment so that the page could display real game deals instead of only the fixed data.
+
+I would also improve the layout for mobile phones and add more options for sorting the games, such as sorting by price or discount.

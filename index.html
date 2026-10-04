@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>PC Game Deals</title>
+
+    <style>
+
+        body {
+            font-family: 
+"Times New Roman", Times, serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .intro {
+            text-align: center;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 25px;
+        }
+
+        #search-box {
+            padding: 10px;
+            width: 250px;
+        }
+
+        #sale-button {
+            padding: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        #game-catalog {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        #game-catalog li {
+            background-color: white;
+            margin-bottom: 15px;
+            padding: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+        }
+
+        .game-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .store {
+            color: #666666;
+        }
+
+        .normal-price {
+            margin-top: 10px;
+        }
+
+        .sale-price {
+            font-weight: bold;
+        }
+
+        .sale-label {
+            display: inline-block;
+            background-color: #d32f2f;
+            color: white;
+            font-weight: bold;
+            padding: 5px 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+        }
+
+        .discount {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        #cheapest-game {
+            text-align: center;
+            margin: 20px;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>PC Game Deals</h1>
+
+    <p class="intro">
+        Browse PC games and find games that are currently on sale.
+    </p>
+
+
+    <div class="controls">
+
+        <input
+            type="text"
+            id="search-box"
+            placeholder="Search for a game"
+        >
+
+        <button id="sale-button">
+            Show Games On Sale
+        </button>
+
+    </div>
+
+
+    <p id="cheapest-game"></p>
+
+
+    <ul id="game-catalog"></ul>
+
+
+
+    <script>
+
+        const games = [
+            { id: 1, title: "Hollow Knight", normalPrice: 14.99, salePrice: 7.49, store: "Steam" },
+            { id: 2, title: "Stardew Valley", normalPrice: 13.99, salePrice: 13.99, store: "GOG" },
+            { id: 3, title: "Celeste", normalPrice: 19.99, salePrice: 4.99, store: "Steam" },
+            { id: 4, title: "Hades", normalPrice: 24.99, salePrice: 12.49, store: "Epic Games" },
+            { id: 5, title: "Portal 2", normalPrice: 9.99, salePrice: 0.99, store: "Steam" },
+            { id: 6, title: "Terraria", normalPrice: 9.99, salePrice: 9.99, store: "GOG" },
+            { id: 7, title: "Disco Elysium", normalPrice: 39.99, salePrice: 9.99, store: "GOG" },
+            { id: 8, title: "Cuphead", normalPrice: 19.99, salePrice: 14.99, store: "Steam" }
+        ];
+
+
+        const gamesCatalog = document.getElementById("game-catalog");
+        const searchBox = document.getElementById("search-box");
+        const saleButton = document.getElementById("sale-button");
+
+        let showingSaleOnly = false;
+
+
+        // PART A
+        // Return games that are currently on sale
+
+        function getGamesOnSale(gameList) {
+
+            let gamesOnSale = [];
+
+            for (const game of gameList) {
+
+                if (game.salePrice < game.normalPrice) {
+                    gamesOnSale.push(game);
+                }
+
+            }
+
+            return gamesOnSale;
+        }
+
+
+
+        // Calculate the discount percentage
+
+        function calculateDiscount(game) {
+
+            let amountSaved = game.normalPrice - game.salePrice;
+
+            let discount = (amountSaved / game.normalPrice) * 100;
+
+            return Math.round(discount);
+        }
+
+
+
+        // Work out the current price of a game
+
+        function getCurrentPrice(game) {
+
+            if (game.salePrice < game.normalPrice) {
+                return game.salePrice;
+            }
+            else {
+                return game.normalPrice;
+            }
+
+        }
+
+
+
+        // Find the cheapest game
+
+        function findCheapestGame(gameList) {
+
+            let cheapestGame = gameList[0];
+
+            for (const game of gameList) {
+
+                let currentPrice = getCurrentPrice(game);
+                let cheapestPrice = getCurrentPrice(cheapestGame);
+
+                if (currentPrice < cheapestPrice) {
+                    cheapestGame = game;
+                }
+
+            }
+
+            return cheapestGame;
+        }
+
+
+
+        // Search for games by title
+
+        function searchGames(gameList, searchWord) {
+
+            let results = [];
+
+            let word = searchWord.toLowerCase();
+
+
+            for (const game of gameList) {
+
+                let gameTitle = game.title.toLowerCase();
+
+                if (gameTitle.includes(word)) {
+                    results.push(game);
+                }
+
+            }
+
+            return results;
+        }
+
+
+
+        // PART B
+        // Display games on the page
+
+        function displayGames(gameList) {
+
+            gamesCatalog.textContent = "";
+
+
+            for (const game of gameList) {
+
+                const gameItem = document.createElement("li");
+
+
+                const gameName = document.createElement("div");
+
+                gameName.className = "game-title";
+
+                gameName.textContent = game.title;
+
+                gameItem.appendChild(gameName);
+
+
+
+                const gameStore = document.createElement("div");
+
+                gameStore.className = "store";
+
+                gameStore.textContent = "Store: " + game.store;
+
+                gameItem.appendChild(gameStore);
+
+
+
+                const normalPrice = document.createElement("div");
+
+                normalPrice.className = "normal-price";
+
+                normalPrice.textContent =
+                    "Normal Price: R" + game.normalPrice.toFixed(2);
+
+                gameItem.appendChild(normalPrice);
+
+
+
+                // Only show these if the game is on sale
+
+                if (game.salePrice < game.normalPrice) {
+
+                    const salePrice = document.createElement("div");
+
+                    salePrice.className = "sale-price";
+
+                    salePrice.textContent =
+                        "Sale Price: R" + game.salePrice.toFixed(2);
+
+                    gameItem.appendChild(salePrice);
+
+
+
+                    const saleLabel = document.createElement("span");
+
+                    saleLabel.className = "sale-label";
+
+                    saleLabel.textContent = "ON SALE";
+
+                    gameItem.appendChild(saleLabel);
+
+
+
+                    const discount = document.createElement("span");
+
+                    discount.className = "discount";
+
+                    discount.textContent =
+                        calculateDiscount(game) + "% OFF";
+
+                    gameItem.appendChild(discount);
+
+                }
+
+
+                gamesCatalog.appendChild(gameItem);
+
+            }
+
+        }
+
+
+
+        // Show the cheapest game
+
+        const cheapestGame = findCheapestGame(games);
+
+        const cheapestGameText =
+            document.getElementById("cheapest-game");
+
+        cheapestGameText.textContent =
+            "Cheapest game: "
+            + cheapestGame.title
+            + " - R"
+            + getCurrentPrice(cheapestGame).toFixed(2);
+
+
+
+        // PART C
+        // Search while the user types
+
+        searchBox.addEventListener("input", function () {
+
+            let searchWord = searchBox.value;
+
+            let results = searchGames(games, searchWord);
+
+
+            if (showingSaleOnly == true) {
+                results = getGamesOnSale(results);
+            }
+
+
+            displayGames(results);
+
+        });
+
+
+
+        // Button for showing only games on sale
+
+        saleButton.addEventListener("click", function () {
+
+            if (showingSaleOnly == false) {
+
+                showingSaleOnly = true;
+
+                saleButton.textContent = "Show All Games";
+
+                let saleGames = getGamesOnSale(games);
+
+                let searchWord = searchBox.value;
+
+                saleGames = searchGames(saleGames, searchWord);
+
+                displayGames(saleGames);
+
+            }
+
+            else {
+
+                showingSaleOnly = false;
+
+                saleButton.textContent = "Show Games On Sale";
+
+                let searchWord = searchBox.value;
+
+                let results = searchGames(games, searchWord);
+
+                displayGames(results);
+
+            }
+
+        });
+
+
+
+        // Display all games when the page first opens
+
+        displayGames(games);
+
+
+    </script>
+
+
+</body>
+
+</html>

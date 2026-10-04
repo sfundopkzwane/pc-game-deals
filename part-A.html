@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>PC Game Deals - Part A</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .result {
+            background-color: white;
+            border: 1px solid #cccccc;
+            padding: 15px;
+            margin: 15px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>PC Game Deals - Part A</h1>
+
+    <div class="result">
+        <h2>1. Games On Sale</h2>
+        <p id="sale-games"></p>
+    </div>
+
+
+    <div class="result">
+        <h2>2. Discount Percentage</h2>
+        <p id="discount"></p>
+    </div>
+
+
+    <div class="result">
+        <h2>3. Cheapest Game</h2>
+        <p id="cheapest"></p>
+    </div>
+
+
+    <div class="result">
+        <h2>4. Search Games</h2>
+
+        <input
+            type="text"
+            id="search-box"
+            placeholder="Search for a game"
+        >
+
+        <p id="search-result"></p>
+    </div>
+
+
+
+    <script>
+
+        const games = [
+            { id: 1, title: "Hollow Knight", normalPrice: 14.99, salePrice: 7.49, store: "Steam" },
+            { id: 2, title: "Stardew Valley", normalPrice: 13.99, salePrice: 13.99, store: "GOG" },
+            { id: 3, title: "Celeste", normalPrice: 19.99, salePrice: 4.99, store: "Steam" },
+            { id: 4, title: "Hades", normalPrice: 24.99, salePrice: 12.49, store: "Epic Games" },
+            { id: 5, title: "Portal 2", normalPrice: 9.99, salePrice: 0.99, store: "Steam" },
+            { id: 6, title: "Terraria", normalPrice: 9.99, salePrice: 9.99, store: "GOG" },
+            { id: 7, title: "Disco Elysium", normalPrice: 39.99, salePrice: 9.99, store: "GOG" },
+            { id: 8, title: "Cuphead", normalPrice: 19.99, salePrice: 14.99, store: "Steam" }
+        ];
+
+
+
+        // 1. Find games that are on sale
+
+        function getGamesOnSale(gameList) {
+
+            let gamesOnSale = [];
+
+            for (const game of gameList) {
+
+                if (game.salePrice < game.normalPrice) {
+                    gamesOnSale.push(game);
+                }
+
+            }
+
+            return gamesOnSale;
+        }
+
+
+
+        // 2. Calculate discount percentage
+
+        function calculateDiscount(game) {
+
+            let amountSaved = game.normalPrice - game.salePrice;
+
+            let discount = (amountSaved / game.normalPrice) * 100;
+
+            return Math.round(discount);
+        }
+
+
+
+        // Get the price the customer currently pays
+
+        function getCurrentPrice(game) {
+
+            if (game.salePrice < game.normalPrice) {
+                return game.salePrice;
+            }
+            else {
+                return game.normalPrice;
+            }
+
+        }
+
+
+
+        // 3. Find the cheapest game
+
+        function findCheapestGame(gameList) {
+
+            let cheapestGame = gameList[0];
+
+            for (const game of gameList) {
+
+                let currentPrice = getCurrentPrice(game);
+                let cheapestPrice = getCurrentPrice(cheapestGame);
+
+                if (currentPrice < cheapestPrice) {
+                    cheapestGame = game;
+                }
+
+            }
+
+            return cheapestGame;
+        }
+
+
+
+        // 4. Search games by title
+
+        function searchGames(gameList, searchWord) {
+
+            let results = [];
+
+            searchWord = searchWord.toLowerCase();
+
+            for (const game of gameList) {
+
+                let gameTitle = game.title.toLowerCase();
+
+                if (gameTitle.includes(searchWord)) {
+                    results.push(game);
+                }
+
+            }
+
+            return results;
+        }
+
+
+
+        // DISPLAY RESULT 1
+
+        let saleGames = getGamesOnSale(games);
+
+        let saleText = "";
+
+        for (const game of saleGames) {
+            saleText = saleText + game.title + ", ";
+        }
+
+        document.getElementById("sale-games").textContent = saleText;
+
+
+
+        // DISPLAY RESULT 2
+        // Use Hollow Knight as an example
+
+        let hollowKnight = games[0];
+
+        let hollowDiscount = calculateDiscount(hollowKnight);
+
+        document.getElementById("discount").textContent =
+            "Hollow Knight discount: " + hollowDiscount + "%";
+
+
+
+        // DISPLAY RESULT 3
+
+        let cheapestGame = findCheapestGame(games);
+
+        document.getElementById("cheapest").textContent =
+            cheapestGame.title
+            + " - Current Price: R"
+            + getCurrentPrice(cheapestGame).toFixed(2);
+
+
+
+        // DISPLAY RESULT 4
+
+        let searchBox = document.getElementById("search-box");
+
+        searchBox.addEventListener("input", function () {
+
+            let searchWord = searchBox.value;
+
+            let searchResults = searchGames(games, searchWord);
+
+            let resultText = "";
+
+            for (const game of searchResults) {
+                resultText = resultText + game.title + ", ";
+            }
+
+            document.getElementById("search-result").textContent =
+                resultText;
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>
